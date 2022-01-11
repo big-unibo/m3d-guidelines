@@ -7,7 +7,7 @@ Multi-model DBMSs, which natively support different data models with a fully int
 
 ## Data
 
-The database with the implementation of every solution in the paper can be downloaded [here](https://big.csr.unibo.it/downloads/m3d_guidelines). 
+The database with the implementation of every solution in the paper can be downloaded [here](https://big.csr.unibo.it/downloads/m3d_guidelines) (9.6 GB). 
 
 Requirement: [Agensgraph](https://bitnine.net/agensgraph/).
 
