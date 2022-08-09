@@ -14,7 +14,7 @@ group by month;
 	select month::text gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1a_ft ft, rel_dt_date d
 	where ft.iddate = d.id 
-		and d.quarter = (select v from v_filter_values_q_q2)
+		and d.quarter = (select v from v_filter_values_q_a1s1)
 	group by month;
 
 -- TARGET3 a2
@@ -41,7 +41,7 @@ group by c.gender;
 	select c.gender::text gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1a_ft ft, doc1_dt_order o,
 		(MATCH (c:dt_customer) 
-		WHERE c.browserused = (select v from v_filter_values_q_q5)
+		WHERE c.browserused = (select v from v_filter_values_q_a3s1)
 		RETURN c.id, c.gender) c
 	where ft.idorder = o.idorder and o.idcustomer = c.id::text::int
 	group by c.gender;
@@ -54,7 +54,7 @@ group by c.gender;
 		(MATCH (c:dt_customer) 
 		RETURN c.id, c.gender, c.idcity) c
 	where ft.idorder = o.idorder and o.idcustomer = c.id::text::int and c.idcity::text::int = ci.id
-		and ci.city = (select v from v_filter_values_q_q6)
+		and ci.city = (select v from v_filter_values_q_a3s2)
 	group by c.gender;
 
 	-- TARGET3 a4
@@ -71,7 +71,7 @@ group by c.gender;
 	select date::text gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1a_ft ft, rel_dt_date d
 	where ft.iddate = d.id
-        and d.quarter = (select v from v_filter_values_q_q8)
+        and d.quarter = (select v from v_filter_values_q_a4s1)
 	group by date;
 
 	-- TARGET3 a4s2
@@ -80,13 +80,13 @@ group by c.gender;
 	select date::text gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1a_ft ft, rel_dt_date d
 	where ft.iddate = d.id
-        and d.month = (select v from v_filter_values_q_q9)
+        and d.month = (select v from v_filter_values_q_a4s2)
 	group by date;
 
 	-- TARGET3 a4s3
 	drop view if exists q_target3_q10;
 	create or replace view q_target3_q10 as
-	with tv as (select v from v_filter_values_q_q10)
+	with tv as (select v from v_filter_values_q_a4s3)
 	select date::text gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1a_ft ft, rel_dt_date d
 	where ft.iddate = d.id
@@ -119,7 +119,7 @@ group by genderParent;
 	select o.info->>'shipmentmode' gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1a_ft ft, doc1_dt_order o,
 		(MATCH (c:dt_customer)-[:KNOWS]->(c1:dt_customer)
-		WHERE c1.browserUsed = (select v from v_filter_values_q_q13)
+		WHERE c1.browserUsed = (select v from v_filter_values_q_c3s1)
 		RETURN c.id) c
 	where ft.idorder = o.idorder and o.idcustomer = c.id::text::int
 	group by o.info->>'shipmentmode';
@@ -130,7 +130,7 @@ group by genderParent;
 	select o.info->>'shipmentmode' gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1a_ft ft, doc1_dt_order o,
 		(MATCH (c:dt_customer)-[:KNOWS]->(c1:dt_customer)-[:KNOWS]->(c2:dt_customer)
-		WHERE c2.browserUsed = (select v from v_filter_values_q_q14)
+		WHERE c2.browserUsed = (select v from v_filter_values_q_c3s2)
 		RETURN c.id) c
 	where ft.idorder = o.idorder and o.idcustomer = c.id::text::int
 	group by o.info->>'shipmentmode';
@@ -142,7 +142,7 @@ group by genderParent;
 	from doc1a_ft ft, doc1_dt_order o,
 		(MATCH (c:dt_customer)-[:KNOWS]->(c1:dt_customer)-[:KNOWS]->(c2:dt_customer)
 		MATCH (c2)-[:KNOWS]->(c3:dt_customer) 
-		WHERE c3.browserUsed = (select v from v_filter_values_q_q15)
+		WHERE c3.browserUsed = (select v from v_filter_values_q_c3s3)
 		RETURN c.id) c
 	where ft.idorder = o.idorder and o.idcustomer = c.id::text::int
 	group by o.info->>'shipmentmode';
@@ -153,7 +153,7 @@ group by genderParent;
 	select o.info->>'shipmentmode' gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1a_ft ft, doc1_dt_order o,
 		(MATCH (c:dt_customer)-[:KNOWS]->(c1:dt_customer)
-		WHERE c1.customer = (select v from v_filter_values_q_q16)
+		WHERE c1.customer = (select v from v_filter_values_q_c3s4)
 		RETURN c.id) c
 	where ft.idorder = o.idorder and o.idcustomer = c.id::text::int
 	group by o.info->>'shipmentmode';
@@ -164,7 +164,7 @@ group by genderParent;
 	select o.info->>'shipmentmode' gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1a_ft ft, doc1_dt_order o,
 		(MATCH (c:dt_customer)-[:KNOWS]->(c1:dt_customer)-[:KNOWS]->(c2:dt_customer)
-		WHERE c2.customer = (select v from v_filter_values_q_q17)
+		WHERE c2.customer = (select v from v_filter_values_q_c3s5)
 		RETURN c.id) c
 	where ft.idorder = o.idorder and o.idcustomer = c.id::text::int
 	group by o.info->>'shipmentmode';
@@ -176,7 +176,7 @@ group by genderParent;
 	from doc1a_ft ft, doc1_dt_order o,
 		(MATCH (c:dt_customer)-[:KNOWS]->(c1:dt_customer)-[:KNOWS]->(c2:dt_customer)
 		 MATCH (c2)-[:KNOWS]->(c3:dt_customer) 
-		 WHERE c3.customer = (select v from v_filter_values_q_q18)
+		 WHERE c3.customer = (select v from v_filter_values_q_c3s6)
 		RETURN c.id) c
 	where ft.idorder = o.idorder and o.idcustomer = c.id::text::int
 	group by o.info->>'shipmentmode';
@@ -187,7 +187,7 @@ group by genderParent;
 	select o.info->>'shipmentmode' gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1a_ft ft, doc1_dt_order o,
 		(MATCH (c:dt_customer)-[:KNOWS]->(c1:dt_customer)
-		WHERE c1.customer = (select c3 from v_filter_values_q_q19) and c.browserused = (select b2 from v_filter_values_q_q19)
+		WHERE c1.customer = (select c3 from v_filter_values_q_c3s7) and c.browserused = (select b2 from v_filter_values_q_c3s7)
 		RETURN c.id) c
 	where ft.idorder = o.idorder and o.idcustomer = c.id::text::int
 	group by o.info->>'shipmentmode';
@@ -198,7 +198,7 @@ group by genderParent;
 	select o.info->>'shipmentmode' gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1a_ft ft, doc1_dt_order o,
 		(MATCH (c:dt_customer)-[:KNOWS]->(c1:dt_customer)-[:KNOWS]->(c2:dt_customer)
-		WHERE c2.customer = (select c3 from v_filter_values_q_q20) and c1.browserused = (select b2 from v_filter_values_q_q20) and c.browserused = (select b1 from v_filter_values_q_q20)
+		WHERE c2.customer = (select c3 from v_filter_values_q_c3s8) and c1.browserused = (select b2 from v_filter_values_q_c3s8) and c.browserused = (select b1 from v_filter_values_q_c3s8)
 		RETURN c.id) c
 	where ft.idorder = o.idorder and o.idcustomer = c.id::text::int
 	group by o.info->>'shipmentmode';
@@ -210,7 +210,7 @@ group by genderParent;
 	from doc1a_ft ft, doc1_dt_order o,
 		(MATCH (c:dt_customer)-[:KNOWS]->(c1:dt_customer)-[:KNOWS]->(c2:dt_customer)
 		MATCH (c2)-[:KNOWS]->(c3:dt_customer) 
-		WHERE c3.customer = (select c3 from v_filter_values_q_q21) and c2.browserused = (select b2 from v_filter_values_q_q21) and c1.browserused = (select b1 from v_filter_values_q_q21) and c.browserused = (select b from v_filter_values_q_q21)
+		WHERE c3.customer = (select c3 from v_filter_values_q_c3s9) and c2.browserused = (select b2 from v_filter_values_q_c3s9) and c1.browserused = (select b1 from v_filter_values_q_c3s9) and c.browserused = (select b from v_filter_values_q_c3s9)
     	RETURN c.id) c
 	where ft.idorder = o.idorder and o.idcustomer = c.id::text::int
 	group by o.info->>'shipmentmode';
@@ -247,7 +247,7 @@ group by p.info->>'productasin';
 	select p.info->>'productasin' gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1a_ft ft, jsonb_array_elements(ft.info->'products') as btop, doc1_dt_product p
 	where (btop->>'idproduct'::text)::int = p.id 
-		and p.info->>'industry'=(select v from v_filter_values_q_q29)
+		and p.info->>'industry'=(select v from v_filter_values_q_g1s1)
 	group by p.info->>'productasin';
 
 	-- TARGET3 g1s2
@@ -256,7 +256,7 @@ group by p.info->>'productasin';
 	select p.info->>'productasin' gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1a_ft ft, jsonb_array_elements(ft.info->'products') as btop, rel_dt_city ci, doc1_dt_product p
 	where (btop->>'idproduct'::text)::int = p.id and (p.info->>'idcity'::text)::int=ci.id 
-		and ci.city=(select v from v_filter_values_q_q30)
+		and ci.city=(select v from v_filter_values_q_g1s2)
 	group by p.info->>'productasin';
 
 -- TARGET3 g2
@@ -275,7 +275,7 @@ group by p.info->>'vendor';
 		(MATCH (c:dt_customer) 
 		RETURN c.id, c.gender) c
 	where (btop->>'idproduct'::text)::int = p.id and ft.idorder = o.idorder and o.idcustomer = c.id::text::int
-		and p.info->>'industry'=(select v from v_filter_values_q_q32)
+		and p.info->>'industry'=(select v from v_filter_values_q_g2s1)
 	group by c.gender;
 
 	-- TARGET3 g2s2
@@ -286,7 +286,7 @@ group by p.info->>'vendor';
 		(MATCH (c:dt_customer) 
 		RETURN c.id, c.gender) c
 	where ft.idorder = o.idorder and o.idcustomer = c.id::text::int and (btop->>'idproduct'::text)::int = p.id and (p.info->>'idcity'::text)::int=ci.id
-		and ci.city=(select v from v_filter_values_q_q33)
+		and ci.city=(select v from v_filter_values_q_g2s2)
 	group by c.gender;
 
 -- TARGET3 g3

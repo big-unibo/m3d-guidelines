@@ -7,9 +7,16 @@ Multi-model DBMSs, which natively support different data models with a fully int
 
 ## Data
 
-The database with the implementation of every solution in the paper can be downloaded [here](https://big.csr.unibo.it/downloads/m3d_guidelines) (9.6 GB). 
+The database with the implementation of every solution in the paper can be downloaded [here](https://big.csr.unibo.it/downloads/m3d_guidelines) (9.6 GB); 
+it is a dump file obtained by running the ```pg_dump``` utility of PostgreSQL.
 
-Requirement: [Agensgraph](https://bitnine.net/agensgraph/).
+The code used to generate the same data is available in this repo, written in Java. 
+All dataset parameters can be changed in the ```Main``` class.
+Connection to the AgensGraph database is set up in the ```it.unibo.big.m3d.utils.db.DbUtils``` class. 
+A ```credentials.txt``` must be created in the ```resources``` folder 
+(see the ```credentials_example.txt``` for an example). 
+
+Requirement: an [Agensgraph](https://bitnine.net/agensgraph/) database.
 
 Each solution is composed by the following tables:
 
@@ -43,7 +50,7 @@ Each solution is composed by the following tables:
   - doc1t4a_ft
   - rel_dt_city
   - rel_dt_date
-  - rel_dt_order
+  - doc1_dt_order
   - doc1_dt_product
   - rel_bt_customer_tag
   - rel_bt_order_product
@@ -60,4 +67,9 @@ Each solution is composed by the following tables:
 
 ## Workload
 
-The queries executed for each solution are available in the 'queries' folder.
+The queries executed for each solution are available in the ```queries``` folder.
+
+Queries with selection predicates take the value of the predicate from a materialized view 
+```v_filter_values_q_[query_id]```, containing a single column and a single record with such value.
+The materialied views are included in the dump file and should be refreshed at every experimental run
+to avoid caching by the DBMS. 

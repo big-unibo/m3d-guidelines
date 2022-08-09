@@ -12,7 +12,7 @@ RETURN d.month as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as
     create or replace view q_graph2_q2 as
     select gb::text, round(a::text::numeric,5) a, round(b::text::numeric,5) b, c::text::int from (
     MATCH (f:ft)-[:ROLLUP_FT_TO_MONTH]->(d:month), (f)-[:ROLLUP_FT_TO_QUARTER]->(q:quarter)
-    WHERE q.quarter = (select v from v_filter_values_q_q2)
+    WHERE q.quarter = (select v from v_filter_values_q_a1s1)
     RETURN d.month as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as c ) v;
 
 -- GRA2 a2
@@ -34,7 +34,7 @@ RETURN d.gender as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) a
     create or replace view q_graph2_q5 as
     select gb::text, round(a::text::numeric,5) a, round(b::text::numeric,5) b, c::text::int from (
     MATCH (f:ft)-[:ROLLUP_FT_TO_CUSTOMER]->(c:customer)-[:ROLLUP_TO_GENDER]->(d:gender), (c)-[:ROLLUP_TO_BROWSERUSED]->(b:browserused)
-    WHERE b.browserused = (select v from v_filter_values_q_q5)
+    WHERE b.browserused = (select v from v_filter_values_q_a3s1)
     RETURN d.gender as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as c ) v;
 
     -- GRA2 a3s2
@@ -42,7 +42,7 @@ RETURN d.gender as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) a
     create or replace view q_graph2_q6 as
     select gb::text, round(a::text::numeric,5) a, round(b::text::numeric,5) b, c::text::int from (
     MATCH (f:ft)-[:ROLLUP_FT_TO_CUSTOMER]->(c:customer)-[:ROLLUP_TO_GENDER]->(d:gender), (c)-[:ROLLUP_CUSTOMER_TO_CITY]->(ci:city)
-    WHERE ci.city = (select v from v_filter_values_q_q6)
+    WHERE ci.city = (select v from v_filter_values_q_a3s2)
     RETURN d.gender as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as c ) v;
 
     -- GRA2 a4
@@ -57,7 +57,7 @@ RETURN d.gender as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) a
     create or replace view q_graph2_q8 as
     select gb::text, round(a::text::numeric,5) a, round(b::text::numeric,5) b, c::text::int from (
     MATCH (f:ft)-[:ROLLUP_TO_DATE]->(d:date)-[:ROLLUP_TO_MONTHYEAR]->(:monthyear)-[:ROLLUP_TO_QUARTER]->(q:quarter)
-    WHERE q.quarter = (select v from v_filter_values_q_q8)
+    WHERE q.quarter = (select v from v_filter_values_q_a4s1)
     RETURN d.date as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as c ) v;
 
     -- GRA2 a4s2
@@ -65,13 +65,13 @@ RETURN d.gender as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) a
     create or replace view q_graph2_q9 as
     select gb::text, round(a::text::numeric,5) a, round(b::text::numeric,5) b, c::text::int from (
     MATCH (f:ft)-[:ROLLUP_TO_DATE]->(d:date)-[:ROLLUP_TO_MONTH]->(m:month)
-    WHERE m.month = (select v from v_filter_values_q_q9)
+    WHERE m.month = (select v from v_filter_values_q_a4s2)
     RETURN d.date as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as c ) v;
 
     -- GRA2 a4s3
     drop view if exists q_graph2_q10;
     create or replace view q_graph2_q10 as
-    with tv as (select v from v_filter_values_q_q10)
+    with tv as (select v from v_filter_values_q_a4s3)
 	select gb::text, round(a::text::numeric,5) a, round(b::text::numeric,5) b, c::text::int from (
     MATCH (f:ft)-[:ROLLUP_TO_DATE]->(d:date)
     WHERE d.date >= (select to_char(tv.v,'YYYY-MM-DD') from tv) and d.date <= (select to_char(tv.v+2,'YYYY-MM-DD') from tv)
@@ -96,7 +96,7 @@ RETURN d.gender as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) a
     create or replace view q_graph2_q13 as
     select gb::text, round(a::text::numeric,5) a, round(b::text::numeric,5) b, c::text::int from (
     MATCH (f)-[:ROLLUP_FT_TO_SHIPMENTMODE]->(s:shipmentMode), (f:ft)-[:ROLLUP_FT_TO_CUSTOMER]->(:customer)-[:KNOWS]->(:customer)-[:ROLLUP_TO_BROWSERUSED]->(b:browserused)
-    WHERE b.browserused = (select v from v_filter_values_q_q13)
+    WHERE b.browserused = (select v from v_filter_values_q_c3s1)
     RETURN s.shipmentMode as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as c ) v;
 
     -- GRA2 c3s2
@@ -104,7 +104,7 @@ RETURN d.gender as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) a
     create or replace view q_graph2_q14 as
     select gb::text, round(a::text::numeric,5) a, round(b::text::numeric,5) b, c::text::int from (
     MATCH (f)-[:ROLLUP_FT_TO_SHIPMENTMODE]->(s:shipmentMode), (f:ft)-[:ROLLUP_FT_TO_CUSTOMER]->(:customer)-[:KNOWS]->(:customer)-[:KNOWS]->(:customer)-[:ROLLUP_TO_BROWSERUSED]->(b:browserused)
-    WHERE b.browserused = (select v from v_filter_values_q_q14)
+    WHERE b.browserused = (select v from v_filter_values_q_c3s2)
     RETURN s.shipmentMode as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as c ) v;
 
     -- GRA2 c3s3
@@ -113,7 +113,7 @@ RETURN d.gender as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) a
     select gb::text, round(a::text::numeric,5) a, round(b::text::numeric,5) b, c::text::int from (
     MATCH (f)-[:ROLLUP_FT_TO_SHIPMENTMODE]->(s:shipmentMode), (f:ft)-[:ROLLUP_FT_TO_CUSTOMER]->(c:customer)-[:KNOWS]->(c1:customer)-[:KNOWS]->(c2:customer)
     MATCH (c2)-[:KNOWS]->(c3:customer)-[:ROLLUP_TO_BROWSERUSED]->(b:browserused)
-    WHERE b.browserused = (select v from v_filter_values_q_q15)
+    WHERE b.browserused = (select v from v_filter_values_q_c3s3)
     RETURN s.shipmentMode as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as c ) v;
 
     -- GRA2 c3s4
@@ -121,7 +121,7 @@ RETURN d.gender as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) a
     create or replace view q_graph2_q16 as
     select gb::text, round(a::text::numeric,5) a, round(b::text::numeric,5) b, c::text::int from (
     MATCH (f)-[:ROLLUP_FT_TO_SHIPMENTMODE]->(s:shipmentMode), (f:ft)-[:ROLLUP_FT_TO_CUSTOMER]->(c:customer)-[:KNOWS]->(c1:customer)
-    WHERE c1.customer = (select v from v_filter_values_q_q16)
+    WHERE c1.customer = (select v from v_filter_values_q_c3s4)
     RETURN s.shipmentMode as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as c ) v;
 
     -- GRA2 c3s5
@@ -129,7 +129,7 @@ RETURN d.gender as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) a
     create or replace view q_graph2_q17 as
     select gb::text, round(a::text::numeric,5) a, round(b::text::numeric,5) b, c::text::int from (
     MATCH (f)-[:ROLLUP_FT_TO_SHIPMENTMODE]->(s:shipmentMode), (f:ft)-[:ROLLUP_FT_TO_CUSTOMER]->(c:customer)-[:KNOWS]->(c1:customer)-[:KNOWS]->(c2:customer)
-    WHERE c2.customer = (select v from v_filter_values_q_q17)
+    WHERE c2.customer = (select v from v_filter_values_q_c3s5)
     RETURN s.shipmentMode as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as c ) v;
 
     -- GRA2 c3s6
@@ -138,7 +138,7 @@ RETURN d.gender as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) a
     select gb::text, round(a::text::numeric,5) a, round(b::text::numeric,5) b, c::text::int from (
     MATCH (f)-[:ROLLUP_FT_TO_SHIPMENTMODE]->(s:shipmentMode), (f:ft)-[:ROLLUP_FT_TO_CUSTOMER]->(c:customer)-[:KNOWS]->(c1:customer)-[:KNOWS]->(c2:customer)
     MATCH (c2)-[:KNOWS]->(c3:customer)-[:ROLLUP_TO_BROWSERUSED]->(b:browserused)
-    WHERE c3.customer = (select v from v_filter_values_q_q18)
+    WHERE c3.customer = (select v from v_filter_values_q_c3s6)
     RETURN s.shipmentMode as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as c ) v;
 
     -- GRA2 c3s7
@@ -147,7 +147,7 @@ RETURN d.gender as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) a
     select gb::text, round(a::text::numeric,5) a, round(b::text::numeric,5) b, c::text::int from (
     MATCH (f)-[:ROLLUP_FT_TO_SHIPMENTMODE]->(s:shipmentMode), (f:ft)-[:ROLLUP_FT_TO_CUSTOMER]->(c:customer)-[:KNOWS]->(c1:customer),
         (c)-[:ROLLUP_TO_BROWSERUSED]->(b:browserused)
-    WHERE c1.customer = (select c3 from v_filter_values_q_q19) and b.browserused = (select b2 from v_filter_values_q_q19)
+    WHERE c1.customer = (select c3 from v_filter_values_q_c3s7) and b.browserused = (select b2 from v_filter_values_q_c3s7)
     RETURN s.shipmentMode as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as c ) v;
 
     -- GRA2 c3s8
@@ -157,7 +157,7 @@ RETURN d.gender as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) a
     MATCH (f)-[:ROLLUP_FT_TO_SHIPMENTMODE]->(s:shipmentMode), (f:ft)-[:ROLLUP_FT_TO_CUSTOMER]->(c:customer)-[:KNOWS]->(c1:customer)-[:KNOWS]->(c2:customer),
         (c)-[:ROLLUP_TO_BROWSERUSED]->(b:browserused),
         (c1)-[:ROLLUP_TO_BROWSERUSED]->(b1:browserused)
-    WHERE c2.customer = (select c3 from v_filter_values_q_q20) and b1.browserused = (select b2 from v_filter_values_q_q20) and b.browserused = (select b1 from v_filter_values_q_q20)
+    WHERE c2.customer = (select c3 from v_filter_values_q_c3s8) and b1.browserused = (select b2 from v_filter_values_q_c3s8) and b.browserused = (select b1 from v_filter_values_q_c3s8)
     RETURN s.shipmentMode as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as c ) v;
 
     -- GRA2 c3s9
@@ -169,8 +169,8 @@ RETURN d.gender as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) a
         (c1)-[:ROLLUP_TO_BROWSERUSED]->(b1:browserused),
         (c2)-[:ROLLUP_TO_BROWSERUSED]->(b2:browserused)
     MATCH (c2)-[:KNOWS]->(c3:customer)
-    WHERE c3.customer = (select c3 from v_filter_values_q_q21) and b2.browserused = (select b2 from v_filter_values_q_q21) 
-        and b1.browserused = (select b1 from v_filter_values_q_q21) and b.browserused = (select b from v_filter_values_q_q21)
+    WHERE c3.customer = (select c3 from v_filter_values_q_c3s9) and b2.browserused = (select b2 from v_filter_values_q_c3s9) 
+        and b1.browserused = (select b1 from v_filter_values_q_c3s9) and b.browserused = (select b from v_filter_values_q_c3s9)
     RETURN s.shipmentMode as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as c ) v;
 
 -- GRA2 c4
@@ -209,7 +209,7 @@ RETURN d.productASIN as gb , sum(f.totalprice) as a, avg(f.discount) as b, count
     create or replace view q_graph2_q29 as
     select gb::text, round(a::text::numeric,5) a, round(b::text::numeric,5) b, c::text::int from (
     MATCH (f:ft)-[:ROLLUP_TO_PRODUCT]->(d:product)-[:ROLLUP_TO_VENDOR]->(:vendor)-[:ROLLUP_TO_INDUSTRY]->(i:industry)
-    WHERE i.industry=(select v from v_filter_values_q_q29)
+    WHERE i.industry=(select v from v_filter_values_q_g1s1)
     RETURN d.productASIN as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as c ) v;
 
     -- GRA2 g1s2
@@ -217,7 +217,7 @@ RETURN d.productASIN as gb , sum(f.totalprice) as a, avg(f.discount) as b, count
     create or replace view q_graph2_q30 as
     select gb::text, round(a::text::numeric,5) a, round(b::text::numeric,5) b, c::text::int from (
     MATCH (f:ft)-[:ROLLUP_TO_PRODUCT]->(d:product)-[:ROLLUP_TO_VENDOR]->(:vendor)-[:ROLLUP_VENDOR_TO_CITY]->(ci:city)
-    WHERE ci.city=(select v from v_filter_values_q_q30)
+    WHERE ci.city=(select v from v_filter_values_q_g1s2)
     RETURN d.productASIN as gb , sum(f.totalprice) as a, avg(f.discount) as b, count(*) as c ) v;
 
 -- GRA2 g2
@@ -232,7 +232,7 @@ RETURN d.vendor as gb , sum(f.totalprice*r.weight) as a, sum(f.discount*r.weight
     create or replace view q_graph2_q32 as
     select gb::text, round(a::text::numeric,5) a, round((b1::text::numeric/b2::text::numeric),5) b, c::text::int from (
     MATCH (f:ft)-[r:ROLLUP_FT_TO_INDUSTRY]->(i:industry), (f)-[:ROLLUP_FT_TO_GENDER]->(d:gender)
-    WHERE i.industry=(select v from v_filter_values_q_q32)
+    WHERE i.industry=(select v from v_filter_values_q_g2s1)
     RETURN d.gender as gb , sum(f.totalprice*r.weight) as a, sum(f.discount*r.weight) as b1, sum(r.weight) as b2, count(*) as c ) v;
 
     -- GRA2 g2s2
@@ -240,7 +240,7 @@ RETURN d.vendor as gb , sum(f.totalprice*r.weight) as a, sum(f.discount*r.weight
     create or replace view q_graph2_q33 as
     select gb::text, round(a::text::numeric,5) a, round((b1::text::numeric/b2::text::numeric),5) b, c::text::int from (
     MATCH (f:ft)-[r:ROLLUP_FT_TO_PRODUCT_CITY]->(ci:city), (f)-[:ROLLUP_FT_TO_GENDER]->(d:gender)
-    WHERE ci.city=(select v from v_filter_values_q_q33)
+    WHERE ci.city=(select v from v_filter_values_q_g2s2)
     RETURN d.gender as gb , sum(f.totalprice*r.weight) as a, sum(f.discount*r.weight) as b1, sum(r.weight) as b2, count(*) as c ) v;
 
 -- GRA2 g3

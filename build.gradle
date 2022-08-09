@@ -1,0 +1,64 @@
+plugins {
+    id 'java-library'
+    id 'scala'
+    id 'idea'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'checkstyle'
+    id 'com.github.alisiikh.scalastyle' version '3.4.1'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+shadowJar { zip64 = true }
+
+javadoc { failOnError true }
+
+scalastyle {
+    config = file("${projectDir}/config/scalastyle_config.xml")
+    verbose = true
+    failOnWarning = false
+}
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+dependencies {
+    implementation 'com.google.guava:guava:23.0' 
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+    implementation 'org.scala-lang:scala-library:2.11.12'
+    implementation 'org.scala-lang:scala-reflect:2.11.12'
+    implementation 'org.scala-lang:scala-compiler:2.11.12'
+    implementation 'org.slf4j:slf4j-api:1.7.30'
+    testCompileOnly 'org.slf4j:slf4j-simple:1.7.30'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+
+    // https://mvnrepository.com/artifact/net.bitnine/agensgraph-jdbc
+    implementation group: 'net.bitnine', name: 'agensgraph-jdbc', version: '1.4.2'
+
+    // https://mvnrepository.com/artifact/com.github.javafaker/javafaker
+    implementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
+
+    // https://mvnrepository.com/artifact/com.jcraft/jsch
+    implementation group: 'com.jcraft', name: 'jsch', version: '0.1.55'
+
+}
+
+test {
+    // useJUnit()
+    useJUnitPlatform()
+    maxHeapSize = '1G'
+}
+
+defaultTasks 'clean', 'build', 'check', 'javadoc', 'shadowJar'

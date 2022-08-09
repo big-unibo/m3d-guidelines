@@ -10,7 +10,7 @@ group by month;
     select month::text gb , round(sum(totalprice)::numeric,5) a, round(avg(discount)::numeric,5) b, count(*) c
     from rel_ft ft, rel_dt_date d
     where ft.iddate = d.id 
-        and d.quarter = (select v from v_filter_values_q_q2)
+        and d.quarter = (select v from v_filter_values_q_a1s1)
     group by month;
 
 drop view if exists q_rel_q3;
@@ -32,7 +32,7 @@ group by gender;
     select gender gb , round(sum(totalprice)::numeric,5) a, round(avg(discount)::numeric,5) b, count(*) c
     from rel_ft ft, rel_dt_order o, rel_dt_customer c
     where ft.idorder = o.idorder and o.idcustomer = c.id 
-        and c.browserUsed = (select v from v_filter_values_q_q5)
+        and c.browserUsed = (select v from v_filter_values_q_a3s1)
     group by gender;
 
     drop view if exists q_rel_q6;
@@ -40,7 +40,7 @@ group by gender;
     select gender gb , round(sum(totalprice)::numeric,5) a, round(avg(discount)::numeric,5) b, count(*) c
     from rel_ft ft, rel_dt_order o, rel_dt_customer c, rel_dt_city ci
     where ft.idorder = o.idorder and o.idcustomer = c.id and c.idcity = ci.id 
-        and ci.city = (select v from v_filter_values_q_q6)
+        and ci.city = (select v from v_filter_values_q_a3s2)
     group by gender;
 
     drop view if exists q_rel_a4;
@@ -55,7 +55,7 @@ group by gender;
     select date::text gb , round(sum(totalprice)::numeric,5) a, round(avg(discount)::numeric,5) b, count(*) c
     from rel_ft ft, rel_dt_date d
     where ft.iddate = d.id 
-        and d.quarter = (select v from v_filter_values_q_q8)
+        and d.quarter = (select v from v_filter_values_q_a4s1)
     group by date;
 
     drop view if exists q_rel_q9;
@@ -63,12 +63,12 @@ group by gender;
     select date::text gb , round(sum(totalprice)::numeric,5) a, round(avg(discount)::numeric,5) b, count(*) c
     from rel_ft ft, rel_dt_date d
     where ft.iddate = d.id 
-        and d.month = (select v from v_filter_values_q_q9)
+        and d.month = (select v from v_filter_values_q_a4s2)
     group by date;
 
     drop view if exists q_rel_q10;
     create or replace view q_rel_q10 as
-    with tv as (select v from v_filter_values_q_q10)
+    with tv as (select v from v_filter_values_q_a4s3)
     select date::text gb , round(sum(totalprice)::numeric,5) a, round(avg(discount)::numeric,5) b, count(*) c
     from rel_ft ft, rel_dt_date d
     where ft.iddate = d.id 
@@ -94,7 +94,7 @@ group by c1.gender;
     select o.shipmentMode gb , round(sum(totalprice)::numeric,5) a, round(avg(discount)::numeric,5) b, count(*) c
     from rel_ft ft, rel_dt_order o, rel_bt_ckc ckc, rel_dt_customer c1
     where ft.idorder = o.idorder and o.idcustomer = ckc.idcustomerchild and ckc.idcustomerparent = c1.id 
-        and c1.browserUsed = (select v from v_filter_values_q_q13)
+        and c1.browserUsed = (select v from v_filter_values_q_c3s1)
     group by o.shipmentMode;
 
     drop view if exists q_rel_q14;
@@ -102,7 +102,7 @@ group by c1.gender;
     select o.shipmentMode gb , round(sum(totalprice)::numeric,5) a, round(avg(discount)::numeric,5) b, count(*) c
     from rel_ft ft, rel_dt_order o, rel_bt_ckc ckc, rel_bt_ckc ckc1, rel_dt_customer c2
     where ft.idorder = o.idorder and o.idcustomer = ckc.idcustomerchild and ckc.idcustomerparent = ckc1.idcustomerchild and ckc1.idcustomerparent = c2.id 
-        and c2.browserUsed = (select v from v_filter_values_q_q14)
+        and c2.browserUsed = (select v from v_filter_values_q_c3s2)
     group by o.shipmentMode;
 
     drop view if exists q_rel_q15;
@@ -110,7 +110,7 @@ group by c1.gender;
     select o.shipmentMode gb , round(sum(totalprice)::numeric,5) a, round(avg(discount)::numeric,5) b, count(*) c
     from rel_ft ft, rel_dt_order o, rel_bt_ckc ckc, rel_bt_ckc ckc1, rel_bt_ckc ckc2, rel_dt_customer c3
     where ft.idorder = o.idorder and o.idcustomer = ckc.idcustomerchild and ckc.idcustomerparent = ckc1.idcustomerchild and ckc1.idcustomerparent = ckc2.idcustomerchild and ckc2.idcustomerparent = c3.id 
-        and c3.browserUsed = (select v from v_filter_values_q_q15)
+        and c3.browserUsed = (select v from v_filter_values_q_c3s3)
     group by o.shipmentMode;
 
     drop view if exists q_rel_q16;
@@ -118,7 +118,7 @@ group by c1.gender;
     select o.shipmentMode gb , round(sum(totalprice)::numeric,5) a, round(avg(discount)::numeric,5) b, count(*) c
     from rel_ft ft, rel_dt_order o, rel_bt_ckc ckc, rel_dt_customer c1
     where ft.idorder = o.idorder and o.idcustomer = ckc.idcustomerchild and ckc.idcustomerparent = c1.id 
-        and c1.customer = (select v from v_filter_values_q_q16)
+        and c1.customer = (select v from v_filter_values_q_c3s4)
     group by o.shipmentMode;
 
     drop view if exists q_rel_q17;
@@ -126,7 +126,7 @@ group by c1.gender;
     select o.shipmentMode gb , round(sum(totalprice)::numeric,5) a, round(avg(discount)::numeric,5) b, count(*) c
     from rel_ft ft, rel_dt_order o, rel_bt_ckc ckc, rel_bt_ckc ckc1, rel_dt_customer c2
     where ft.idorder = o.idorder and o.idcustomer = ckc.idcustomerchild and ckc.idcustomerparent = ckc1.idcustomerchild and ckc1.idcustomerparent = c2.id 
-        and c2.customer = (select v from v_filter_values_q_q17)
+        and c2.customer = (select v from v_filter_values_q_c3s5)
     group by o.shipmentMode;
 
     drop view if exists q_rel_q18;
@@ -134,7 +134,7 @@ group by c1.gender;
     select o.shipmentMode gb , round(sum(totalprice)::numeric,5) a, round(avg(discount)::numeric,5) b, count(*) c
     from rel_ft ft, rel_dt_order o, rel_bt_ckc ckc, rel_bt_ckc ckc1, rel_bt_ckc ckc2, rel_dt_customer c3
     where ft.idorder = o.idorder and o.idcustomer = ckc.idcustomerchild and ckc.idcustomerparent = ckc1.idcustomerchild and ckc1.idcustomerparent = ckc2.idcustomerchild and ckc2.idcustomerparent = c3.id 
-        and c3.customer = (select v from v_filter_values_q_q18)
+        and c3.customer = (select v from v_filter_values_q_c3s6)
     group by o.shipmentMode;
 
     drop view if exists q_rel_q19;
@@ -143,7 +143,7 @@ group by c1.gender;
     from rel_ft ft, rel_dt_order o, rel_bt_ckc ckc, rel_dt_customer c, rel_dt_customer c1
     where ft.idorder = o.idorder and o.idcustomer = ckc.idcustomerchild and ckc.idcustomerparent = c1.id 
         and ckc.idcustomerchild = c.id
-        and c1.customer = (select c3 from v_filter_values_q_q19) and c.browserUsed=(select b2 from v_filter_values_q_q19)
+        and c1.customer = (select c3 from v_filter_values_q_c3s7) and c.browserUsed=(select b2 from v_filter_values_q_c3s7)
     group by o.shipmentMode;
 
     drop view if exists q_rel_q20;
@@ -152,7 +152,7 @@ group by c1.gender;
     from rel_ft ft, rel_dt_order o, rel_bt_ckc ckc, rel_bt_ckc ckc1, rel_dt_customer c, rel_dt_customer c1, rel_dt_customer c2
     where ft.idorder = o.idorder and o.idcustomer = ckc.idcustomerchild and ckc.idcustomerparent = ckc1.idcustomerchild and ckc1.idcustomerparent = c2.id 
         and ckc.idcustomerchild = c.id and ckc1.idcustomerchild = c1.id
-        and c2.customer = (select c3 from v_filter_values_q_q20) and c1.browserUsed=(select b2 from v_filter_values_q_q20) and c.browserUsed=(select b1 from v_filter_values_q_q20)
+        and c2.customer = (select c3 from v_filter_values_q_c3s8) and c1.browserUsed=(select b2 from v_filter_values_q_c3s8) and c.browserUsed=(select b1 from v_filter_values_q_c3s8)
     group by o.shipmentMode;
 
     drop view if exists q_rel_q21;
@@ -161,7 +161,7 @@ group by c1.gender;
     from rel_ft ft, rel_dt_order o, rel_bt_ckc ckc, rel_bt_ckc ckc1, rel_bt_ckc ckc2, rel_dt_customer c, rel_dt_customer c1, rel_dt_customer c2, rel_dt_customer c3
     where ft.idorder = o.idorder and o.idcustomer = ckc.idcustomerchild and ckc.idcustomerparent = ckc1.idcustomerchild and ckc1.idcustomerparent = ckc2.idcustomerchild and ckc2.idcustomerparent = c3.id 
         and ckc.idcustomerchild = c.id and ckc1.idcustomerchild = c1.id and ckc2.idcustomerchild = c2.id
-        and c3.customer = (select c3 from v_filter_values_q_q21) and c2.browserUsed=(select b2 from v_filter_values_q_q21) and c1.browserUsed=(select b1 from v_filter_values_q_q21) and c.browserUsed=(select b from v_filter_values_q_q21)
+        and c3.customer = (select c3 from v_filter_values_q_c3s9) and c2.browserUsed=(select b2 from v_filter_values_q_c3s9) and c1.browserUsed=(select b1 from v_filter_values_q_c3s9) and c.browserUsed=(select b from v_filter_values_q_c3s9)
     group by o.shipmentMode;
 
 drop view if exists q_rel_q24;
@@ -214,7 +214,7 @@ group by productASIN;
     select productASIN gb , round(sum(totalprice)::numeric,5) a, round(avg(discount)::numeric,5) b, count(*) c
     from rel_ft ft, rel_bt_order_product btop, rel_dt_product p
     where ft.idorder = btop.idorder and btop.idproduct = p.id
-        and p.industry=(select v from v_filter_values_q_q29)
+        and p.industry=(select v from v_filter_values_q_g1s1)
     group by productASIN;
 
     drop view if exists q_rel_q30;
@@ -222,7 +222,7 @@ group by productASIN;
     select productASIN gb , round(sum(totalprice)::numeric,5) a, round(avg(discount)::numeric,5) b, count(*) c
     from rel_ft ft, rel_bt_order_product btop, rel_dt_product p, rel_dt_city ci
     where ft.idorder = btop.idorder and btop.idproduct = p.id and p.idcity = ci.id
-        and ci.city=(select v from v_filter_values_q_q30)
+        and ci.city=(select v from v_filter_values_q_g1s2)
     group by productASIN;
 
 drop view if exists q_rel_q31;
@@ -237,7 +237,7 @@ group by vendor;
     select gender gb , round(sum(totalprice*btop.weight)::numeric,5) a, round((sum(discount*btop.weight)/sum(btop.weight))::numeric,5) b, count(*) c
     from rel_ft ft, rel_bt_order_product btop, rel_dt_product p, rel_dt_order o, rel_dt_customer c
     where ft.idorder = btop.idorder and btop.idproduct = p.id and ft.idorder = o.idorder and o.idcustomer = c.id
-        and p.industry=(select v from v_filter_values_q_q32)
+        and p.industry=(select v from v_filter_values_q_g2s1)
     group by gender;
 
     drop view if exists q_rel_q33;
@@ -245,7 +245,7 @@ group by vendor;
     select gender gb , round(sum(totalprice*btop.weight)::numeric,5) a, round((sum(discount*btop.weight)/sum(btop.weight))::numeric,5) b, count(*) c
     from rel_ft ft, rel_bt_order_product btop, rel_dt_product p, rel_dt_city ci, rel_dt_order o, rel_dt_customer c
     where ft.idorder = btop.idorder and btop.idproduct = p.id and p.idcity = ci.id and ft.idorder = o.idorder and o.idcustomer = c.id
-        and ci.city=(select v from v_filter_values_q_q33)
+        and ci.city=(select v from v_filter_values_q_g2s2)
     group by gender;
 
 drop view if exists q_rel_q34;

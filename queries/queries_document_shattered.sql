@@ -12,7 +12,7 @@ group by d.info->>'month';
 	select d.info->>'month' gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1_ft ft, doc1_dt_date d
 	where ft.iddate = d.id
-		and d.info->>'quarter' = (select v from v_filter_values_q_q2)
+		and d.info->>'quarter' = (select v from v_filter_values_q_a1s1)
 	group by d.info->>'month';
 
 -- DOC1 a2
@@ -37,7 +37,7 @@ group by c.info->>'gender';
 	select c.info->>'gender' gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1_ft ft, doc1_dt_order o, doc1_dt_customer c
 	where ft.idorder = o.idorder and o.idcustomer = c.id
-        and c.info->>'browserused' = (select v from v_filter_values_q_q5)
+        and c.info->>'browserused' = (select v from v_filter_values_q_a3s1)
 	group by c.info->>'gender';
 
 	-- DOC1 a3s2
@@ -46,7 +46,7 @@ group by c.info->>'gender';
 	select c.info->>'gender' gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1_ft ft, doc1_dt_order o, doc1_dt_customer c, doc1_dt_city ci
 	where ft.idorder = o.idorder and o.idcustomer = c.id and c.idcity = ci.id
-        and ci.info->>'city' = (select v from v_filter_values_q_q6)
+        and ci.info->>'city' = (select v from v_filter_values_q_a3s2)
 	group by c.info->>'gender';
 
 	-- DOC1 a4
@@ -63,7 +63,7 @@ group by c.info->>'gender';
 	select d.info->>'date' gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1_ft ft, doc1_dt_date d
 	where ft.iddate = d.id
-        and d.info->>'quarter' = (select v from v_filter_values_q_q8)
+        and d.info->>'quarter' = (select v from v_filter_values_q_a4s1)
 	group by d.info->>'date';
 
 	-- DOC1 a4s2
@@ -72,13 +72,13 @@ group by c.info->>'gender';
 	select d.info->>'date' gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1_ft ft, doc1_dt_date d
 	where ft.iddate = d.id
-        and (d.info->>'month')::int = (select v from v_filter_values_q_q9)
+        and (d.info->>'month')::int = (select v from v_filter_values_q_a4s2)
 	group by d.info->>'date';
 
 	-- DOC1 a4s3
 	drop view if exists q_doc1_q10;
 	create or replace view q_doc1_q10 as
-	with tv as (select v from v_filter_values_q_q10)
+	with tv as (select v from v_filter_values_q_a4s3)
 	select d.info->>'date' gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1_ft ft, doc1_dt_date d
 	where ft.iddate = d.id
@@ -122,7 +122,7 @@ group by c1.info->>'gender';
 			else '[]' end
 		) as ckc
 	where ft.idorder = o.idorder and o.idcustomer = ckc.value::text::int
-		and c1.info->>'browserused' = (select v from v_filter_values_q_q13)
+		and c1.info->>'browserused' = (select v from v_filter_values_q_c3s1)
 	group by o.info->>'shipmentmode';
 
 	-- DOC1 c3s2
@@ -141,7 +141,7 @@ group by c1.info->>'gender';
 			else '[]' end
 		) as ckc1
 	where ft.idorder = o.idorder and o.idcustomer = ckc.value::text::int and c1.id = ckc1.value::text::int
-		and c2.info->>'browserused' = (select v from v_filter_values_q_q14)
+		and c2.info->>'browserused' = (select v from v_filter_values_q_c3s2)
 	group by o.info->>'shipmentmode';
 
 	-- DOC1 c3s3
@@ -165,7 +165,7 @@ group by c1.info->>'gender';
 			else '[]' end
 		) as ckc2
 	where ft.idorder = o.idorder and o.idcustomer = ckc.value::text::int and c1.id = ckc1.value::text::int and c2.id = ckc2.value::text::int
-		and c3.info->>'browserused' = (select v from v_filter_values_q_q15)
+		and c3.info->>'browserused' = (select v from v_filter_values_q_c3s3)
 	group by o.info->>'shipmentmode';
 
 	-- DOC1 c3s4
@@ -179,7 +179,7 @@ group by c1.info->>'gender';
 			else '[]' end
 		) as ckc
 	where ft.idorder = o.idorder and o.idcustomer = ckc.value::text::int
-		and c1.info->>'customer' = (select v from v_filter_values_q_q16)
+		and c1.info->>'customer' = (select v from v_filter_values_q_c3s4)
 	group by o.info->>'shipmentmode';
 
 	-- DOC1 c3s5
@@ -198,7 +198,7 @@ group by c1.info->>'gender';
 			else '[]' end
 		) as ckc1
 	where ft.idorder = o.idorder and o.idcustomer = ckc.value::text::int and c1.id = ckc1.value::text::int
-		and c2.info->>'customer' = (select v from v_filter_values_q_q17)
+		and c2.info->>'customer' = (select v from v_filter_values_q_c3s5)
 	group by o.info->>'shipmentmode';
 
 	-- DOC1 c3s6
@@ -222,7 +222,7 @@ group by c1.info->>'gender';
 			else '[]' end
 		) as ckc2
 	where ft.idorder = o.idorder and o.idcustomer = ckc.value::text::int and c1.id = ckc1.value::text::int and c2.id = ckc2.value::text::int
-		and c3.info->>'customer' = (select v from v_filter_values_q_q18)
+		and c3.info->>'customer' = (select v from v_filter_values_q_c3s6)
 	group by o.info->>'shipmentmode';
 
 	-- DOC1 c3s7
@@ -237,7 +237,7 @@ group by c1.info->>'gender';
 		) as ckc
 	where ft.idorder = o.idorder and o.idcustomer = ckc.value::text::int
 		and c.id = ckc.value::text::int
-		and c1.info->>'customer' = (select c3 from v_filter_values_q_q19) and c.info->>'browserused' = (select b2 from v_filter_values_q_q19)
+		and c1.info->>'customer' = (select c3 from v_filter_values_q_c3s7) and c.info->>'browserused' = (select b2 from v_filter_values_q_c3s7)
 	group by o.info->>'shipmentmode';
 
 	-- DOC1 c3s8
@@ -257,7 +257,7 @@ group by c1.info->>'gender';
 		) as ckc1
 	where ft.idorder = o.idorder and o.idcustomer = ckc.value::text::int and c1.id = ckc1.value::text::int
 		and c.id = ckc.value::text::int and c1.id = ckc1.value::text::int
-		and c2.info->>'customer' = (select c3 from v_filter_values_q_q20) and c1.info->>'browserused' = (select b2 from v_filter_values_q_q20) and c.info->>'browserused' = (select b1 from v_filter_values_q_q20)
+		and c2.info->>'customer' = (select c3 from v_filter_values_q_c3s8) and c1.info->>'browserused' = (select b2 from v_filter_values_q_c3s8) and c.info->>'browserused' = (select b1 from v_filter_values_q_c3s8)
 	group by o.info->>'shipmentmode';
 
 	-- DOC1 c3s9
@@ -282,7 +282,7 @@ group by c1.info->>'gender';
 		) as ckc2
 	where ft.idorder = o.idorder and o.idcustomer = ckc.value::text::int and c1.id = ckc1.value::text::int and c2.id = ckc2.value::text::int
 		and c.id = ckc.value::text::int and c1.id = ckc1.value::text::int and c2.id = ckc2.value::text::int
-		and c3.info->>'customer' = (select c3 from v_filter_values_q_q21) and c2.info->>'browserused' = (select b2 from v_filter_values_q_q21) and c1.info->>'browserused' = (select b1 from v_filter_values_q_q21) and c.info->>'browserused' = (select b from v_filter_values_q_q21)
+		and c3.info->>'customer' = (select c3 from v_filter_values_q_c3s9) and c2.info->>'browserused' = (select b2 from v_filter_values_q_c3s9) and c1.info->>'browserused' = (select b1 from v_filter_values_q_c3s9) and c.info->>'browserused' = (select b from v_filter_values_q_c3s9)
 	group by o.info->>'shipmentmode';
 
 -- DOC1 d1
@@ -315,7 +315,7 @@ group by p.info->>'productasin';
 	select p.info->>'productasin' gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1_ft ft, jsonb_array_elements(ft.info->'products') as btop, doc1_dt_product p
 	where (btop->>'idproduct')::int = p.id
-		and p.info->>'industry'=(select v from v_filter_values_q_q29)
+		and p.info->>'industry'=(select v from v_filter_values_q_g1s1)
 	group by p.info->>'productasin';
 
 	-- DOC1 g1s2
@@ -324,7 +324,7 @@ group by p.info->>'productasin';
 	select p.info->>'productasin' gb , round(sum((ft.info->>'totalprice')::numeric),5) a,  round(avg((ft.info->>'discount')::numeric),5) b, count(*) c
 	from doc1_ft ft, jsonb_array_elements(ft.info->'products') as btop, doc1_dt_product p, doc1_dt_city ci
 	where (btop->>'idproduct')::int = p.id and p.idcity = ci.id
-		and ci.info->>'city'=(select v from v_filter_values_q_q30)
+		and ci.info->>'city'=(select v from v_filter_values_q_g1s2)
 	group by p.info->>'productasin';
 
 -- DOC1 g2
@@ -341,7 +341,7 @@ group by p.info->>'vendor';
 	select c.info->>'gender' gb , round(sum((ft.info->>'totalprice')::numeric*(btop->>'weight')::numeric),5) a,  round(sum((ft.info->>'discount')::numeric*(btop->>'weight')::numeric)/sum((btop->>'weight')::numeric),5) b, count(*) c
 	from doc1_ft ft, jsonb_array_elements(ft.info->'products') as btop, doc1_dt_product p, doc1_dt_order o, doc1_dt_customer c
 	where (btop->>'idproduct')::int = p.id and ft.idorder = o.idorder and o.idcustomer = c.id
-		and p.info->>'industry'=(select v from v_filter_values_q_q32)
+		and p.info->>'industry'=(select v from v_filter_values_q_g2s1)
 	group by c.info->>'gender';
 
 	-- DOC1 g2s2
@@ -350,7 +350,7 @@ group by p.info->>'vendor';
 	select c.info->>'gender' gb , round(sum((ft.info->>'totalprice')::numeric*(btop->>'weight')::numeric),5) a,  round(sum((ft.info->>'discount')::numeric*(btop->>'weight')::numeric)/sum((btop->>'weight')::numeric),5) b, count(*) c
 	from doc1_ft ft, jsonb_array_elements(ft.info->'products') as btop, doc1_dt_product p, doc1_dt_city ci, doc1_dt_order o, doc1_dt_customer c
 	where (btop->>'idproduct')::int = p.id and p.idcity = ci.id and ft.idorder = o.idorder and o.idcustomer = c.id
-		and ci.info->>'city'=(select v from v_filter_values_q_q33)
+		and ci.info->>'city'=(select v from v_filter_values_q_g2s2)
 	group by c.info->>'gender';
 
 -- DOC1 g3
